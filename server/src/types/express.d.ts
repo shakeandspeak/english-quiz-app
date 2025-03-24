@@ -2,19 +2,19 @@ declare module 'express' {
     import { Express, Request, Response, NextFunction } from 'express-serve-static-core';
 
     interface Router {
-        get(path: string, ...handlers: any[]): this;
-        post(path: string, ...handlers: any[]): this;
-        put(path: string, ...handlers: any[]): this;
-        delete(path: string, ...handlers: any[]): this;
-        use(...handlers: any[]): this;
+        use: Function;
+        get: Function;
+        post: Function;
+        put: Function;
+        delete: Function;
     }
 
     interface Application extends Express {
-        use(path: string | Router | Function, ...handlers: Function[]): this;
-        get(path: string, ...handlers: Function[]): this;
-        post(path: string, ...handlers: Function[]): this;
-        put(path: string, ...handlers: Function[]): this;
-        delete(path: string, ...handlers: Function[]): this;
+        use(path: string, handler: Router | Function): this;
+        get(path: string, handler: Function): this;
+        post(path: string, handler: Function): this;
+        put(path: string, handler: Function): this;
+        delete(path: string, handler: Function): this;
     }
 
     function express(): Application;
