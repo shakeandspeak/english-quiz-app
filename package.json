@@ -1,0 +1,18 @@
+{
+  "name": "english-quiz-app",
+  "version": "1.0.0",
+  "description": "An application for creating and taking English language quizzes",
+  "scripts": {
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "cd server && npm run dev",
+    "client": "cd english-quiz-app && npm run dev",
+    "install-all": "npm install && cd english-quiz-app && npm install && cd ../server && npm install"
+  },
+  "dependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  }
+} 
