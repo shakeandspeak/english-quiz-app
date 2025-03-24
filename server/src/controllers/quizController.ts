@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
-import { Quiz, IQuiz } from '../models/Quiz';
+import { Quiz } from '../models/Quiz';
+import { IQuiz } from '../types/quiz';
 
 // Create a new quiz
 export const createQuiz = async (req: Request, res: Response) => {
   try {
-    const quiz = new Quiz(req.body);
-    await quiz.save();
+    const quiz = await Quiz.create(req.body);
     res.status(201).json(quiz);
   } catch (error) {
     res.status(400).json({ message: 'Error creating quiz', error });
@@ -13,7 +13,7 @@ export const createQuiz = async (req: Request, res: Response) => {
 };
 
 // Get all quizzes
-export const getAllQuizzes = async (req: Request, res: Response) => {
+export const getAllQuizzes = async (_req: Request, res: Response) => {
   try {
     const quizzes = await Quiz.find();
     res.json(quizzes);
@@ -36,19 +36,15 @@ export const getQuizById = async (req: Request, res: Response) => {
 };
 
 // Update a quiz
-export const updateQuiz = async (req: Request, res: Response) => {
+export const updateQuiz = async (req: Request<{ id: string }, any, IQuiz>, res: Response) => {
   try {
-    const quiz = await Quiz.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true, runValidators: true }
-    );
+    const quiz = await Quiz.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!quiz) {
       return res.status(404).json({ message: 'Quiz not found' });
     }
     res.json(quiz);
   } catch (error) {
-    res.status(400).json({ message: 'Error updating quiz', error });
+    res.status(500).json({ message: 'Error updating quiz', error });
   }
 };
 

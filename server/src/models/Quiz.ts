@@ -1,45 +1,48 @@
-import mongoose, { Document, Schema } from 'mongoose';
-import { IQuestion, IQuiz } from '../../../shared/types/quiz';
+import { Schema, model } from 'mongoose';
+
+interface IQuestion {
+  questionText: string;
+  questionType: 'multiple-choice' | 'true-false' | 'fill-in-blank';
+  options?: string[];
+  correctAnswer: string | string[];
+  points: number;
+}
+
+interface IQuiz {
+  title: string;
+  description: string;
+  difficulty: 'beginner' | 'intermediate' | 'advanced';
+  questions: IQuestion[];
+  timeLimit?: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
 
 const QuestionSchema = new Schema<IQuestion>({
-  type: {
+  questionText: { type: String, required: true },
+  questionType: {
     type: String,
-    enum: ['multiple-choice', 'fill-in-blank', 'matching', 'true-false'],
-    required: true
-  },
-  question: {
-    type: String,
-    required: true
-  },
-  options: [{
-    type: String
-  }],
-  correctAnswer: {
-    type: Schema.Types.Mixed,
-    required: true
-  },
-  points: {
-    type: Number,
     required: true,
-    default: 1
-  }
+    enum: ['multiple-choice', 'true-false', 'fill-in-blank']
+  },
+  options: [String],
+  correctAnswer: { type: Schema.Types.Mixed, required: true },
+  points: { type: Number, required: true }
 });
 
 const QuizSchema = new Schema<IQuiz>({
-  title: {
+  title: { type: String, required: true },
+  description: { type: String, required: true },
+  difficulty: {
     type: String,
-    required: true
-  },
-  description: {
-    type: String,
-    required: true
+    required: true,
+    enum: ['beginner', 'intermediate', 'advanced']
   },
   questions: [QuestionSchema],
-  timeLimit: {
-    type: Number
-  }
+  timeLimit: Number
 }, {
   timestamps: true
 });
 
-export const Quiz = mongoose.model<IQuiz>('Quiz', QuizSchema); 
+export const Quiz = model<IQuiz>('Quiz', QuizSchema);
+export type { IQuiz, IQuestion }; 
