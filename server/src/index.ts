@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
@@ -13,7 +13,7 @@ app.use(cors());
 app.use(express.json());
 
 // Health check
-app.get('/health', (_req: Request, res: Response) => {
+app.get('/health', (_req: Request, res: Response, next: NextFunction) => {
   res.json({ status: 'ok' });
 });
 
