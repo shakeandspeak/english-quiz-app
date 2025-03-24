@@ -6,7 +6,9 @@
     "prebuild": "echo 'Current directory:' && pwd && echo '\nAll files:' && ls -R && echo '\nPackage contents:' && cat package.json && echo '\nTypeScript config:' && cat tsconfig.json",
     "build": "tsc",
     "start": "node dist/index.js",
-    "dev": "ts-node src/index.ts"
+    "dev": "ts-node src/index.ts",
+    "clean": "rm -rf dist node_modules",
+    "prestart": "ls -la dist"
   },
   "dependencies": {
     "@types/cors": "2.8.17",
@@ -22,10 +24,6 @@
   "devDependencies": {
   },
   "description": "Backend server for English Quiz App",
-  "scripts": {
-    "clean": "rm -rf dist node_modules",
-    "prestart": "ls -la dist"
-  },
   "engines": {
     "node": ">=18.0.0"
   },
